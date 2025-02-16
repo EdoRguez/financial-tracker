@@ -30,7 +30,7 @@ const TransactionList: React.FC<TransactionListProps> = ({ transactions }) => {
                   }
                 >
                   {transaction.type === "Receive" ? "+" : "-"}$
-                  {transaction.amount.toFixed(2)}
+                  {transaction.amount ? transaction.amount.toFixed(2) : "0.00"}
                 </Text>
               </Td>
               <Td display={["none", "table-cell"]}>

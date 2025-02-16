@@ -5,6 +5,7 @@ import Balance from "./components/Balance";
 import FilterTransactions from "./components/FilterTransactions";
 import { useTransactions } from "./hooks/useTransactions";
 import { useModalStore } from "./store/modalStore";
+import SimpleCard from "./components/cards/SimpleCard";
 
 function App() {
   const {
@@ -29,11 +30,15 @@ function App() {
         >
           Add Transaction
         </Button>
-        <FilterTransactions
-          transactions={transactions}
-          setFilteredTransactions={setFilteredTransactions}
-        />
-        <TransactionList transactions={filteredTransactions} />
+        <SimpleCard>
+          <FilterTransactions
+            transactions={transactions}
+            setFilteredTransactions={setFilteredTransactions}
+          />
+        </SimpleCard>
+        <SimpleCard>
+          <TransactionList transactions={filteredTransactions} />
+        </SimpleCard>
         <AddTransactionModal onAddTransaction={addTransaction} />
       </VStack>
     </Container>

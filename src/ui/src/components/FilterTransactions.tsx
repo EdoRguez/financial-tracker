@@ -3,7 +3,6 @@ import { useState } from "react";
 import {
   Box,
   VStack,
-  SimpleGrid,
   Input,
   Select,
   Button,
@@ -44,11 +43,11 @@ const FilterTransactions: React.FC<FilterTransactionsProps> = ({
 
   return (
     <Box className="mb-4">
-      <Heading as="h2" size={["sm", "md"]} className="mb-2">
+      <Heading as="h2" size={["sm", "md"]} className="mb-4">
         Filter Transactions
       </Heading>
       <VStack spacing={4}>
-        <SimpleGrid columns={[1, 2]} spacing={4} width="100%">
+        <div className="w-full grid grid-cols-1 md:grid-cols-3 gap-3">
           <Input
             type="date"
             placeholder="Start Date"
@@ -81,7 +80,7 @@ const FilterTransactions: React.FC<FilterTransactionsProps> = ({
             value={maxAmount}
             onChange={(e) => setMaxAmount(e.target.value)}
           />
-        </SimpleGrid>
+        </div>
         <Button
           colorScheme="blue"
           onClick={handleFilter}

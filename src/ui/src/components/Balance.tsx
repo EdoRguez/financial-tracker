@@ -14,7 +14,7 @@ const Balance: React.FC<BalanceProps> = ({ transactions }) => {
   }, 0);
 
   return (
-    <Box className="mb-4">
+    <Box className="mb-2">
       <Text fontSize={["xl", "2xl"]} fontWeight="bold">
         Balance:{" "}
         <Text as="span" color={balance >= 0 ? "green.500" : "red.500"}>

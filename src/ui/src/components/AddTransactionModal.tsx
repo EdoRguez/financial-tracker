@@ -11,14 +11,16 @@ import {
   ModalBody,
   ModalCloseButton,
   Button,
-  FormControl,
-  FormLabel,
   Input,
   Select,
-  VStack,
+  NumberInput,
+  NumberInputField,
+  useToast,
 } from "@chakra-ui/react";
 import type { Transaction } from "../types/Transaction";
 import { useModalStore } from "../store/modalStore";
+import { validAmount, validLettersAndNumbers } from "../utils/InputUtils";
+import { formatAmountStringToNumber, validDate } from "../utils/Utils";
 
 interface AddTransactionModalProps {
   onAddTransaction: (transaction: Omit<Transaction, "id">) => void;
@@ -27,32 +29,121 @@ interface AddTransactionModalProps {
 const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   onAddTransaction,
 }) => {
+  const toast = useToast();
   const { isOpen, modalType, closeModal } = useModalStore();
-  const [amount, setAmount] = useState("");
-  const [type, setType] = useState<"Send" | "Receive">("Send");
-  const [date, setDate] = useState("");
-  const [description, setDescription] = useState("");
+
+  const [inputAmount, setInputAmount] = useState<string>("");
+  const [formData, setFormData] = useState<Omit<Transaction, "id">>({
+    amount: undefined,
+    type: "",
+    date: "",
+    description: "",
+  });
+
+  const [validationErrors, setValidationErrors] = useState({
+    amount: false,
+    description: false,
+    type: false,
+    date: false,
+  });
+
+  const handleChange = (event: any) => {
+    const { name, value } = event.target;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleDescriptionChange = (event: any) => {
+    const { name, value } = event.target;
+    if (value && !validLettersAndNumbers(value, true)) return;
+    setFormData((prevFormData) => ({ ...prevFormData, [name]: value }));
+  };
+
+  const handleNumberChange = (event: any) => {
+    const { name, value } = event.target;
+    if (value && !validAmount(value)) return;
+    setInputAmount(value);
+    setFormData((prevFormData) => ({
+      ...prevFormData,
+      [name]: formatAmountStringToNumber(value),
+    }));
+  };
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    onAddTransaction({
-      amount: Number.parseFloat(amount),
-      type,
-      date,
-      description,
+    if (isFormValid()) {
+      onAddTransaction(formData);
+      closeModal();
+      clearForm();
+    } else {
+      toast({
+        title: "Error",
+        description: "Please fill out all fields correctly.",
+        status: "error",
+        position: "top-right",
+        duration: 3000,
+        isClosable: true,
+      });
+    }
+  };
+
+  const isFormValid = (): boolean => {
+    let valid = true;
+    const errors = {
+      amount: false,
+      description: false,
+      type: false,
+      date: false,
+    };
+
+    if (!formData.amount) {
+      errors.amount = true;
+      valid = false;
+    }
+    if (!formData.type) {
+      errors.type = true;
+      valid = false;
+    }
+    if (!formData.date || !validDate(formData.date)) {
+      errors.date = true;
+      valid = false;
+    }
+    if (
+      !formData.description ||
+      !validLettersAndNumbers(formData.description, true)
+    ) {
+      errors.description = true;
+      valid = false;
+    }
+
+    setValidationErrors(errors);
+    return valid;
+  };
+
+  const clearForm = () => {
+    setInputAmount("");
+    setFormData({
+      amount: undefined,
+      type: "",
+      date: "",
+      description: "",
+    });
+  };
+
+  const handleCloseModal = () => {
+    clearForm();
+    setValidationErrors({
+      amount: false,
+      description: false,
+      date: false,
+      type: false,
     });
     closeModal();
-    setAmount("");
-    setType("Send");
-    setDate("");
-    setDescription("");
   };
 
   return (
     <Modal
       isOpen={isOpen && modalType === "addTransaction"}
-      onClose={closeModal}
-      size={["full", "md"]}
+      onClose={handleCloseModal}
     >
       <ModalOverlay />
       <ModalContent>
@@ -60,47 +151,67 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
         <ModalCloseButton />
         <form onSubmit={handleSubmit}>
           <ModalBody>
-            <VStack spacing={4}>
-              <FormControl isRequired>
-                <FormLabel>Amount</FormLabel>
-                <Input
-                  type="number"
-                  value={amount}
-                  onChange={(e) => setAmount(e.target.value)}
+            <div className="mt-2">
+              <label className="text-sm">
+                Amount <span className="text-rose-500">*</span>
+              </label>
+              <NumberInput
+                size="sm"
+                value={inputAmount}
+                isInvalid={validationErrors.amount}
+              >
+                <NumberInputField
+                  name="amount"
+                  onChange={handleNumberChange}
+                  maxLength={15}
                 />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Type</FormLabel>
-                <Select
-                  value={type}
-                  onChange={(e) =>
-                    setType(e.target.value as "Send" | "Receive")
-                  }
-                >
-                  <option value="Send">Send</option>
-                  <option value="Receive">Receive</option>
-                </Select>
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Date</FormLabel>
-                <Input
-                  type="date"
-                  value={date}
-                  onChange={(e) => setDate(e.target.value)}
-                />
-              </FormControl>
-              <FormControl isRequired>
-                <FormLabel>Description</FormLabel>
-                <Input
-                  type="text"
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                />
-              </FormControl>
-            </VStack>
+              </NumberInput>
+            </div>
+            <div className="mt-2">
+              <label className="text-sm">
+                Description <span className="text-rose-500">*</span>
+              </label>
+              <Input
+                size="sm"
+                name="description"
+                value={formData.description}
+                onChange={handleDescriptionChange}
+                maxLength={50}
+                isInvalid={validationErrors.description}
+              />
+            </div>
+            <div className="mt-2">
+              <label className="text-sm">
+                Type <span className="text-rose-500">*</span>
+              </label>
+              <Select
+                size="sm"
+                name="type"
+                value={formData.type}
+                onChange={handleChange}
+                isInvalid={validationErrors.type}
+              >
+                <option value="">-</option>
+                <option value="Send">Send</option>
+                <option value="Receive">Receive</option>
+              </Select>
+            </div>
+            <div className="mt-2">
+              <label className="text-sm">
+                Date <span className="text-rose-500">*</span>
+              </label>
+              <Input
+                size="sm"
+                type="date"
+                name="date"
+                value={formData.date}
+                onChange={handleChange}
+                isInvalid={validationErrors.date}
+              />
+            </div>
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={closeModal}>
+            <Button variant="ghost" mr={3} onClick={handleCloseModal}>
               Cancel
             </Button>
             <Button colorScheme="blue" type="submit">
