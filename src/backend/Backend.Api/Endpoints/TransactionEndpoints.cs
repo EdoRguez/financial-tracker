@@ -10,7 +10,7 @@ public static class TransactionEndpoints
 {
     public static RouteGroupBuilder MapTransactionEndpoints(this IEndpointRouteBuilder routes)
     {
-        var group = routes.MapGroup("/transactions");
+        var group = routes.MapGroup("/api/transactions");
 
         group.MapGet("/", async ([FromServices] GetAllTransactionHandler handler, [FromServices] IMapper mapper) =>
         {
@@ -25,7 +25,13 @@ public static class TransactionEndpoints
         {
             var transaction = mapper.Map<Transaction>(request);
 
-            await handler.Handle(transaction);
+            var validation = await handler.Handle(transaction);
+
+            if (!validation.IsValid)
+            {
+                var errors = validation.Errors.Select(e => new { property = e.PropertyName, message = e.ErrorMessage });
+                return Results.BadRequest(new { errors });
+            }
 
             return Results.NoContent();
         });

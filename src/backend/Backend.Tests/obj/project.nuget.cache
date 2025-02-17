@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tmTqWD3yYBc=",
+  "dgSpecHash": "TCqfP8bIEX0=",
   "success": true,
   "projectFilePath": "/Users/pc/Documents/Projects/financial-tracker/src/backend/Backend.Tests/Backend.Tests.csproj",
   "expectedPackageFiles": [
+    "/Users/pc/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.data.sqlite.core/9.0.2/microsoft.data.sqlite.core.9.0.2.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.entityframeworkcore/9.0.2/microsoft.entityframeworkcore.9.0.2.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.entityframeworkcore.abstractions/9.0.2/microsoft.entityframeworkcore.abstractions.9.0.2.nupkg.sha512",

@@ -1,9 +1,10 @@
 {
   "version": 2,
-  "dgSpecHash": "tFFs9ZWPeSY=",
+  "dgSpecHash": "yDSLSKLMqPA=",
   "success": true,
   "projectFilePath": "/Users/pc/Documents/Projects/financial-tracker/src/backend/Backend.Core/Backend.Core.csproj",
   "expectedPackageFiles": [
+    "/Users/pc/.nuget/packages/fluentvalidation/11.11.0/fluentvalidation.11.11.0.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.extensions.configuration/9.0.2/microsoft.extensions.configuration.9.0.2.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.extensions.configuration.abstractions/9.0.2/microsoft.extensions.configuration.abstractions.9.0.2.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.extensions.dependencyinjection/9.0.2/microsoft.extensions.dependencyinjection.9.0.2.nupkg.sha512",
