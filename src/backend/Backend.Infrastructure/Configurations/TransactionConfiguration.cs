@@ -1,3 +1,7 @@
+using Backend.Core.Entities;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Metadata.Builders;
+
 namespace Backend.Infrastructure.Configurations;
 
 public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>

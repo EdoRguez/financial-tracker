@@ -1,3 +1,9 @@
+using Backend.Core.Repositories;
+using Backend.Infrastructure.Repositories;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.DependencyInjection;
+
 namespace Backend.Infrastructure;
 
 public static class DependencyInjection

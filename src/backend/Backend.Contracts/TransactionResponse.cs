@@ -6,4 +6,4 @@ public record TransactionResponse(
     decimal Amount,
     DateTime Date,
     string Type
-)
+);

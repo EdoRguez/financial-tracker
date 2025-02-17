@@ -1,3 +1,7 @@
+using Backend.Core.Entities;
+using Backend.Core.Repositories;
+using Microsoft.EntityFrameworkCore;
+
 namespace Backend.Infrastructure.Repositories;
 
 public class TransactionRepository : ITransactionRepository

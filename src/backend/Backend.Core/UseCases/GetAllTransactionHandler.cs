@@ -1,3 +1,4 @@
+using Backend.Core.Entities;
 using Backend.Core.Repositories;
 
 namespace Backend.Core.UseCases;
