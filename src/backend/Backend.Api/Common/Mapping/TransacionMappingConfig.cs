@@ -9,5 +9,6 @@ public class TransactionMappingConfig : IRegister
     public void Register(TypeAdapterConfig config)
     {
         config.NewConfig<Transaction, TransactionResponse>();
+        config.NewConfig<CreateTransactionRequest, Transaction>();
     }
 }

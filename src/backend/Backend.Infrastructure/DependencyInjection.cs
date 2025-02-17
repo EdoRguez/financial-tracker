@@ -1,3 +1,4 @@
+using Backend.Core;
 using Backend.Core.Repositories;
 using Backend.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
@@ -27,6 +28,7 @@ public static class DependencyInjection
 
     public static IServiceCollection AddPersistence(this IServiceCollection services)
     {
+        services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
 
         return services;

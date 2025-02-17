@@ -8,6 +8,7 @@ public static class DependencyInjection
     public static IServiceCollection AddCore(this IServiceCollection services)
     {
         services.AddScoped<GetAllTransactionHandler>();
+        services.AddScoped<CreateTransactionHandler>();
 
         return services;
     }

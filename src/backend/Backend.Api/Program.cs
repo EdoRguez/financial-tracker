@@ -1,5 +1,7 @@
+using Backend.Api.Endpoints;
 using Backend.Core;
 using Backend.Infrastructure;
+using Backend.Api.Common.Mapping;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -7,6 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddMappings();
 builder.Services.AddInfrastructure(builder.Configuration)
                 .AddCore();
 
@@ -20,5 +23,7 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.MapTransactionEndpoints();
 
 app.Run();
