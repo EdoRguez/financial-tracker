@@ -3,16 +3,20 @@ import type { Transaction } from "../types/Transaction";
 import {
   getTransactions,
   addTransaction as apiAddTransaction,
+  getTransactionTypes,
 } from "../services/api";
+import { TransactionType } from "../types/TransactionType";
 
 export const useTransactions = () => {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
+  const [transactionTypes, setTransactionTypes] = useState<TransactionType[]>([]);
   const [filteredTransactions, setFilteredTransactions] = useState<
     Transaction[]
   >([]);
 
   useEffect(() => {
     fetchTransactions();
+    fetchTransactionTypes();
   }, []);
 
   const fetchTransactions = async () => {
@@ -25,11 +29,19 @@ export const useTransactions = () => {
     }
   };
 
+  const fetchTransactionTypes = async () => {
+    try {
+      const data = await getTransactionTypes();
+      setTransactionTypes(data);
+    } catch (error) {
+      console.error("Error fetching transaction types:", error);
+    }
+  };
+
   const addTransaction = async (transaction: Omit<Transaction, "id">) => {
     try {
-      const newTransaction = await apiAddTransaction(transaction);
-      setTransactions([...transactions, newTransaction]);
-      setFilteredTransactions([...filteredTransactions, newTransaction]);
+      await apiAddTransaction(transaction);
+      fetchTransactions();
     } catch (error) {
       console.error("Error adding transaction:", error);
     }
@@ -37,6 +49,7 @@ export const useTransactions = () => {
 
   return {
     transactions,
+    transactionTypes,
     addTransaction,
     filteredTransactions,
     setFilteredTransactions,

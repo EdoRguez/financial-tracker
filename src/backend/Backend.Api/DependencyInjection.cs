@@ -14,6 +14,24 @@ public static class DependencyInjection
 
         services.AddMappings();
 
+        services.ConfigureCors();
+
+        return services;
+    }
+
+    public static IServiceCollection ConfigureCors(this IServiceCollection services)
+    {
+        services.AddCors(options =>
+        {
+            options.AddPolicy("AllowAll",
+                policy =>
+                {
+                    policy.AllowAnyOrigin()
+                        .AllowAnyMethod()
+                        .AllowAnyHeader();
+                });
+        });
+
         return services;
     }
 }

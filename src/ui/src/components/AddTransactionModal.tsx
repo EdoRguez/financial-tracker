@@ -21,13 +21,16 @@ import type { Transaction } from "../types/Transaction";
 import { useModalStore } from "../store/modalStore";
 import { validAmount, validLettersAndNumbers } from "../utils/InputUtils";
 import { formatAmountStringToNumber, validDate } from "../utils/Utils";
+import { TransactionType } from "../types/TransactionType";
 
 interface AddTransactionModalProps {
   onAddTransaction: (transaction: Omit<Transaction, "id">) => void;
+  transactionTypes: TransactionType[];
 }
 
 const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   onAddTransaction,
+  transactionTypes,
 }) => {
   const toast = useToast();
   const { isOpen, modalType, closeModal } = useModalStore();
@@ -35,7 +38,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
   const [inputAmount, setInputAmount] = useState<string>("");
   const [formData, setFormData] = useState<Omit<Transaction, "id">>({
     amount: undefined,
-    type: "",
+    transactionTypeId: undefined,
     date: "",
     description: "",
   });
@@ -99,7 +102,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
       errors.amount = true;
       valid = false;
     }
-    if (!formData.type) {
+    if (!formData.transactionTypeId) {
       errors.type = true;
       valid = false;
     }
@@ -123,7 +126,7 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
     setInputAmount("");
     setFormData({
       amount: undefined,
-      type: "",
+      transactionTypeId: undefined,
       date: "",
       description: "",
     });
@@ -186,14 +189,19 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
               </label>
               <Select
                 size="sm"
-                name="type"
-                value={formData.type}
+                name="transactionTypeId"
+                value={formData.transactionTypeId}
                 onChange={handleChange}
                 isInvalid={validationErrors.type}
               >
                 <option value="">-</option>
-                <option value="Send">Send</option>
-                <option value="Receive">Receive</option>
+                {transactionTypes.map((type: TransactionType) => {
+                  return (
+                    <option key={type.id} value={type.id}>
+                      {type.name}
+                    </option>
+                  );
+                })}
               </Select>
             </div>
             <div className="mt-2">
@@ -211,10 +219,10 @@ const AddTransactionModal: React.FC<AddTransactionModalProps> = ({
             </div>
           </ModalBody>
           <ModalFooter>
-            <Button variant="ghost" mr={3} onClick={handleCloseModal}>
+            <Button variant="ghost" mr={3} onClick={handleCloseModal} size="sm">
               Cancel
             </Button>
-            <Button colorScheme="blue" type="submit">
+            <Button colorScheme="blue" type="submit" size="sm">
               Add Transaction
             </Button>
           </ModalFooter>

@@ -8,9 +8,10 @@ interface BalanceProps {
 
 const Balance: React.FC<BalanceProps> = ({ transactions }) => {
   const balance = transactions.reduce((acc, transaction) => {
-    return transaction.type === "Receive"
-      ? acc + transaction.amount
-      : acc - transaction.amount;
+    const amount: number = transaction.amount ?? 0;
+    return transaction.transactionTypeId === 2
+      ? acc + amount
+      : acc - amount;
   }, 0);
 
   return (

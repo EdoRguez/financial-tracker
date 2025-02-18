@@ -1,60 +1,44 @@
+import axios from "axios";
 import type { Transaction } from "../types/Transaction";
+import { TransactionType } from "../types/TransactionType";
 
-// Dummy data
-const dummyTransactions: Transaction[] = [
-  {
-    id: 1,
-    amount: 1000,
-    type: "Receive",
-    date: "2023-05-01",
-    description: "Salary",
-  },
-  {
-    id: 2,
-    amount: 50,
-    type: "Send",
-    date: "2023-05-02",
-    description: "Groceries",
-  },
-  {
-    id: 3,
-    amount: 200,
-    type: "Send",
-    date: "2023-05-03",
-    description: "Electricity bill",
-  },
-  {
-    id: 4,
-    amount: 300,
-    type: "Receive",
-    date: "2023-05-04",
-    description: "Freelance work",
-  },
-  {
-    id: 5,
-    amount: 75,
-    type: "Send",
-    date: "2023-05-05",
-    description: "Internet bill",
-  },
-];
+const API_BASE_URL = "http://localhost:5295";
 
-// Simulated delay to mimic API call latency
-const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+const apiClient = axios.create({
+  baseURL: API_BASE_URL,
+});
 
 export const getTransactions = async (): Promise<Transaction[]> => {
-  await delay(500); // Simulate network delay
-  return [...dummyTransactions];
+  try {
+    const response = await apiClient.get<Transaction[]>("/api/transactions");
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch transactions:", error);
+    throw new Error("Failed to fetch transactions");
+  }
 };
 
 export const addTransaction = async (
   transaction: Omit<Transaction, "id">
 ): Promise<Transaction> => {
-  await delay(500); // Simulate network delay
-  const newTransaction: Transaction = {
-    ...transaction,
-    id: dummyTransactions.length + 1,
-  };
-  dummyTransactions.push(newTransaction);
-  return newTransaction;
+  try {
+    const response = await apiClient.post<Transaction>(
+      "/api/transactions",
+      transaction
+    );
+    return response.data;
+  } catch (error) {
+    console.error("Failed to add transaction:", error);
+    throw new Error("Failed to add transaction");
+  }
+};
+
+export const getTransactionTypes = async (): Promise<TransactionType[]> => {
+  try {
+    const response = await apiClient.get<TransactionType[]>("/api/transactionTypes");
+    return response.data;
+  } catch (error) {
+    console.error("Failed to fetch transaction types:", error);
+    throw new Error("Failed to fetch transaction types");
+  }
 };

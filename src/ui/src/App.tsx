@@ -10,6 +10,7 @@ import SimpleCard from "./components/cards/SimpleCard";
 function App() {
   const {
     transactions,
+    transactionTypes,
     addTransaction,
     filteredTransactions,
     setFilteredTransactions,
@@ -26,20 +27,21 @@ function App() {
         <Button
           colorScheme="blue"
           onClick={() => openModal("addTransaction")}
-          size={["sm", "md"]}
+          size="sm"
         >
           Add Transaction
         </Button>
         <SimpleCard>
           <FilterTransactions
             transactions={transactions}
+            transactionTypes={transactionTypes}
             setFilteredTransactions={setFilteredTransactions}
           />
         </SimpleCard>
         <SimpleCard>
-          <TransactionList transactions={filteredTransactions} />
+          <TransactionList transactions={filteredTransactions} transactionTypes={transactionTypes} />
         </SimpleCard>
-        <AddTransactionModal onAddTransaction={addTransaction} />
+        <AddTransactionModal onAddTransaction={addTransaction} transactionTypes={transactionTypes} />
       </VStack>
     </Container>
   );

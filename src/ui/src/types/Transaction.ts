@@ -1,7 +1,7 @@
 export interface Transaction {
   id: number;
   amount: number | undefined;
-  type: string;
+  transactionTypeId: number | undefined;
   date: string;
   description: string;
 }
