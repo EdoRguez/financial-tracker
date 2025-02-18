@@ -1,3 +1,4 @@
+using Backend.Core.Caching;
 using Backend.Core.Entities;
 using Backend.Core.Repositories;
 using Backend.Core.UseCases.Transactions;
@@ -9,6 +10,7 @@ namespace Backend.Tests.Core.UseCases.Transactions;
 public class GetAllTransactionHandlerTests
 {
     private readonly Mock<ITransactionRepository> repositoryStub = new();
+    private readonly Mock<ICacheService> cacheServiceStub = new();
 
     [Fact]
     public async Task Handle_ShouldReturnAllTransactions()
@@ -21,8 +23,7 @@ public class GetAllTransactionHandlerTests
         };
 
         repositoryStub.Setup(repo => repo.GetAll(false)).ReturnsAsync(expectedTransactions);
-
-        var handler = new GetAllTransactionHandler(repositoryStub.Object);
+        var handler = new GetAllTransactionHandler(repositoryStub.Object, cacheServiceStub.Object);
 
         // Act
         var actualTransactions = await handler.Handle();

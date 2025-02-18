@@ -1,4 +1,5 @@
 using Backend.Core;
+using Backend.Core.Caching;
 using Backend.Core.Entities;
 using Backend.Core.Repositories;
 using Backend.Core.UseCases.Transactions;
@@ -14,6 +15,7 @@ public class CreateTransactionHandlerTests
     private readonly Mock<ITransactionRepository> _repoMock;
     private readonly Mock<IUnitOfWork> _unitOfWorkMock;
     private readonly Mock<IValidator<Transaction>> _validatorMock;
+    private readonly Mock<ICacheService> _cacheServiceMock;
     private readonly CreateTransactionHandler _handler;
 
     public CreateTransactionHandlerTests()
@@ -21,7 +23,8 @@ public class CreateTransactionHandlerTests
         _repoMock = new Mock<ITransactionRepository>();
         _unitOfWorkMock = new Mock<IUnitOfWork>();
         _validatorMock = new Mock<IValidator<Transaction>>();
-        _handler = new CreateTransactionHandler(_repoMock.Object, _unitOfWorkMock.Object, _validatorMock.Object);
+        _cacheServiceMock = new Mock<ICacheService>();
+        _handler = new CreateTransactionHandler(_repoMock.Object, _unitOfWorkMock.Object, _cacheServiceMock.Object, _validatorMock.Object);
     }
 
     [Fact]
