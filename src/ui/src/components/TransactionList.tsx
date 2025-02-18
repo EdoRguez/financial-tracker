@@ -34,6 +34,13 @@ const TransactionList: React.FC<TransactionListProps> = ({
           </Tr>
         </Thead>
         <Tbody>
+          {
+            transactions.length === 0 && (
+              <Tr>
+                <Td colSpan={4} textAlign="center">No transactions found</Td>
+              </Tr>
+            )
+          }
           {transactions.map((transaction: Transaction) => (
             <Tr key={transaction.id}>
               <Td>{new Date(transaction.date).toLocaleDateString("en-US")}</Td>

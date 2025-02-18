@@ -1,6 +1,6 @@
 export interface FilterTransaction {
-  startDate: string | undefined;
-  endDate: string | undefined;
+  startDate: string ;
+  endDate: string;
   transactionTypeId: number | undefined;
   minAmount: number | undefined;
   maxAmount: number | undefined;

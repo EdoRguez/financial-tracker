@@ -21,8 +21,8 @@ public class TransactionRepository : ITransactionRepository
     public async Task<IEnumerable<Transaction>> GetAll(bool trackChanges = false)
     {
         if (trackChanges)
-            return await _context.Transactions.ToListAsync();
+            return await _context.Transactions.OrderByDescending(x => x.Date).ToListAsync();
 
-        return await _context.Transactions.AsNoTracking().ToListAsync();
+        return await _context.Transactions.AsNoTracking().OrderByDescending(x => x.Date).ToListAsync();
     }
 }

@@ -1,6 +1,15 @@
 import type React from "react";
-import { useState } from "react";
-import { Box, VStack, Input, Select, Button, Heading } from "@chakra-ui/react";
+import { useEffect, useState } from "react";
+import {
+  Box,
+  VStack,
+  Input,
+  Select,
+  Button,
+  Heading,
+  NumberInput,
+  NumberInputField,
+} from "@chakra-ui/react";
 import type { Transaction } from "../types/Transaction";
 import { TransactionType } from "../types/TransactionType";
 import { FilterTransaction } from "../types/FilterTransaction";
@@ -21,12 +30,16 @@ const FilterTransactions: React.FC<FilterTransactionsProps> = ({
   const [inputMinAmount, setInputMinAmount] = useState<string>("");
   const [inputMaxAmount, setInputMaxAmount] = useState<string>("");
   const [formData, setFormData] = useState<FilterTransaction>({
-    startDate: undefined,
-    endDate: undefined,
+    startDate: '',
+    endDate: '',
     transactionTypeId: undefined,
     minAmount: undefined,
     maxAmount: undefined,
   });
+
+  useEffect(() => {
+    handleClearFilters();
+  }, [transactions]);
 
   const handleChange = (event: any) => {
     const { name, value } = event.target;
@@ -47,20 +60,41 @@ const FilterTransactions: React.FC<FilterTransactionsProps> = ({
   };
 
   const handleFilter = () => {
-    console.log(formData)
     const filtered = transactions.filter((transaction) => {
       const dateInRange =
-        (!formData.startDate || new Date(transaction.date) >= new Date(formData.startDate)) &&
-        (!formData.endDate || new Date(transaction.date) <= new Date(formData.endDate));
-      const typeMatch = !formData.transactionTypeId || transaction.transactionTypeId === +formData.transactionTypeId;
+        (!formData.startDate ||
+          new Date(transaction.date) >= new Date(formData.startDate)) &&
+        (!formData.endDate ||
+          new Date(transaction.date) <= new Date(formData.endDate));
+      const typeMatch =
+        !formData.transactionTypeId ||
+        transaction.transactionTypeId === +formData.transactionTypeId;
       const amountInRange =
-        (!formData.minAmount || !transaction.amount || transaction.amount >= formData.minAmount) &&
-        (!formData.maxAmount || !transaction.amount || transaction.amount <= formData.maxAmount);
+        (!formData.minAmount ||
+          !transaction.amount ||
+          transaction.amount >= formData.minAmount) &&
+        (!formData.maxAmount ||
+          !transaction.amount ||
+          transaction.amount <= formData.maxAmount);
 
       return dateInRange && typeMatch && amountInRange;
     });
 
     setFilteredTransactions(filtered);
+  };
+
+  const handleClearFilters = () => {
+    setInputMinAmount("");
+    setInputMaxAmount("");
+    setFormData({
+      startDate: "",
+      endDate: "",
+      transactionTypeId: 0,
+      minAmount: undefined,
+      maxAmount: undefined,
+    });
+
+    setFilteredTransactions(transactions);
   };
 
   return (
@@ -112,35 +146,38 @@ const FilterTransactions: React.FC<FilterTransactionsProps> = ({
           </div>
           <div className="text-sm">
             <label>Min Amount</label>
-            <Input
-              size="sm"
-              type="number"
-              name="minAmount"
-              placeholder="Min Amount"
-              value={inputMinAmount}
-              onChange={handleNumberChange}
-            />
+            <NumberInput size="sm" value={inputMinAmount}>
+              <NumberInputField
+                name="minAmount"
+                onChange={handleNumberChange}
+                maxLength={15}
+              />
+            </NumberInput>
           </div>
           <div className="text-sm">
             <label>Max Amount</label>
-            <Input
-              size="sm"
-              type="number"
-              name="maxAmount"
-              placeholder="Max Amount"
-              value={inputMaxAmount}
-              onChange={handleNumberChange}
-            />
+            <NumberInput size="sm" value={inputMaxAmount}>
+              <NumberInputField
+                name="maxAmount"
+                onChange={handleNumberChange}
+                maxLength={15}
+              />
+            </NumberInput>
           </div>
         </div>
-        <Button
-          size="sm"
-          colorScheme="blue"
-          onClick={handleFilter}
-          width={["100%", "auto"]}
-        >
-          Apply Filters
-        </Button>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+          <Button variant="ghost" onClick={handleClearFilters} size="sm">
+            Clear Filters
+          </Button>
+          <Button
+            size="sm"
+            colorScheme="blue"
+            onClick={handleFilter}
+            width={["100%", "auto"]}
+          >
+            Apply Filters
+          </Button>
+        </div>
       </VStack>
     </Box>
   );
