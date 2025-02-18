@@ -20,7 +20,6 @@ public class CreateTransactionHandler
 
     public async Task<ValidationResult> Handle(Transaction model)
     {
-
         var result = await _validator.ValidateAsync(model);
 
         if(!result.IsValid)
