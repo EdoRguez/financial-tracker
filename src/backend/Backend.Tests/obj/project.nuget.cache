@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "dgSpecHash": "IGca/Rd3IRE=",
+  "dgSpecHash": "ilzG4yGFZsA=",
   "success": true,
   "projectFilePath": "/Users/pc/Documents/Projects/financial-tracker/src/backend/Backend.Tests/Backend.Tests.csproj",
   "expectedPackageFiles": [
@@ -30,7 +30,7 @@
     "/Users/pc/.nuget/packages/microsoft.testplatform.objectmodel/17.13.0/microsoft.testplatform.objectmodel.17.13.0.nupkg.sha512",
     "/Users/pc/.nuget/packages/microsoft.testplatform.testhost/17.13.0/microsoft.testplatform.testhost.17.13.0.nupkg.sha512",
     "/Users/pc/.nuget/packages/moq/4.20.72/moq.4.20.72.nupkg.sha512",
-    "/Users/pc/.nuget/packages/newtonsoft.json/13.0.1/newtonsoft.json.13.0.1.nupkg.sha512",
+    "/Users/pc/.nuget/packages/newtonsoft.json/13.0.3/newtonsoft.json.13.0.3.nupkg.sha512",
     "/Users/pc/.nuget/packages/sqlitepclraw.bundle_e_sqlite3/2.1.10/sqlitepclraw.bundle_e_sqlite3.2.1.10.nupkg.sha512",
     "/Users/pc/.nuget/packages/sqlitepclraw.core/2.1.10/sqlitepclraw.core.2.1.10.nupkg.sha512",
     "/Users/pc/.nuget/packages/sqlitepclraw.lib.e_sqlite3/2.1.10/sqlitepclraw.lib.e_sqlite3.2.1.10.nupkg.sha512",

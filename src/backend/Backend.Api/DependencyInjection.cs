@@ -12,6 +12,12 @@ public static class DependencyInjection
 
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
+        services.AddStackExchangeRedisCache(redisOptions =>
+        {
+            string? connection = configuration["Redis"];
+            redisOptions.Configuration = connection;
+        });
+
         services.AddMappings();
 
         services.ConfigureCors();

@@ -1,5 +1,7 @@
 using Backend.Core;
+using Backend.Core.Caching;
 using Backend.Core.Repositories;
+using Backend.Infrastructure.Caching;
 using Backend.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -12,7 +14,8 @@ public static class DependencyInjection
     public static IServiceCollection AddInfrastructure(this IServiceCollection services, IConfiguration config)
     {
         services.AddContext(config)
-                .AddPersistence();
+                .AddPersistence()
+                .AddCaching();
 
         return services;
     }
@@ -31,6 +34,13 @@ public static class DependencyInjection
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
         services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
+
+        return services;
+    }
+
+    public static IServiceCollection AddCaching(this IServiceCollection services)
+    {
+        services.AddSingleton<ICacheService, CacheService>();
 
         return services;
     }
