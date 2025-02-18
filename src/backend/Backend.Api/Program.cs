@@ -23,5 +23,6 @@ if (app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseMiddleware<GlobalExceptionHandlingMiddleware>();
 app.MapTransactionEndpoints();
+app.MapTransactionTypeEndpoints();
 
 app.Run();

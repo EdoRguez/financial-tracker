@@ -34,14 +34,58 @@ namespace Backend.Infrastructure.Migrations
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
-                    b.Property<string>("Type")
+                    b.Property<int>("TransactionTypeId")
+                        .HasColumnType("INTEGER");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TransactionTypeId");
+
+                    b.ToTable("Transactions", (string)null);
+                });
+
+            modelBuilder.Entity("Backend.Core.Entities.TransactionType", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("INTEGER");
+
+                    b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
                         .HasColumnType("TEXT");
 
                     b.HasKey("Id");
 
-                    b.ToTable("Transactions", (string)null);
+                    b.ToTable("TransactionTypes", (string)null);
+
+                    b.HasData(
+                        new
+                        {
+                            Id = 1,
+                            Name = "Send"
+                        },
+                        new
+                        {
+                            Id = 2,
+                            Name = "Receive"
+                        });
+                });
+
+            modelBuilder.Entity("Backend.Core.Entities.Transaction", b =>
+                {
+                    b.HasOne("Backend.Core.Entities.TransactionType", "TransactionType")
+                        .WithMany("Transactions")
+                        .HasForeignKey("TransactionTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("TransactionType");
+                });
+
+            modelBuilder.Entity("Backend.Core.Entities.TransactionType", b =>
+                {
+                    b.Navigation("Transactions");
                 });
 #pragma warning restore 612, 618
         }

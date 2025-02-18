@@ -30,6 +30,7 @@ public static class DependencyInjection
     {
         services.AddScoped<IUnitOfWork, UnitOfWork>();
         services.AddScoped<ITransactionRepository, TransactionRepository>();
+        services.AddScoped<ITransactionTypeRepository, TransactionTypeRepository>();
 
         return services;
     }

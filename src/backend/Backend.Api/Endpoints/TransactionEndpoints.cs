@@ -1,6 +1,6 @@
 using Backend.Contracts;
 using Backend.Core.Entities;
-using Backend.Core.UseCases;
+using Backend.Core.UseCases.Transactions;
 using MapsterMapper;
 using Microsoft.AspNetCore.Mvc;
 

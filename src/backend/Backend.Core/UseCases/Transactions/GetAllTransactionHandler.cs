@@ -1,7 +1,7 @@
 using Backend.Core.Entities;
 using Backend.Core.Repositories;
 
-namespace Backend.Core.UseCases;
+namespace Backend.Core.UseCases.Transactions;
 
 public class GetAllTransactionHandler
 {

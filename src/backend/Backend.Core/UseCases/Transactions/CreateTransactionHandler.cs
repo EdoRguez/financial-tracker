@@ -3,7 +3,7 @@ using Backend.Core.Repositories;
 using FluentValidation;
 using FluentValidation.Results;
 
-namespace Backend.Core.UseCases;
+namespace Backend.Core.UseCases.Transactions;
 
 public class CreateTransactionHandler
 {

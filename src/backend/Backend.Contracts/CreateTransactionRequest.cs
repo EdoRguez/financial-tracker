@@ -4,5 +4,5 @@ public record CreateTransactionRequest(
     string Description,
     decimal Amount,
     DateTime Date,
-    string Type
+    int transactionTypeId
 );

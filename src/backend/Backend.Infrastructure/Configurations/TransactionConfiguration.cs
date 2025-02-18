@@ -21,6 +21,9 @@ public class TransactionConfiguration : IEntityTypeConfiguration<Transaction>
         builder.Property(x => x.Description).IsRequired().HasMaxLength(50);
         builder.Property(x => x.Amount).IsRequired();
         builder.Property(x => x.Date).IsRequired();
-        builder.Property(x => x.Type).IsRequired().HasMaxLength(50);
+        builder.Property(x => x.TransactionTypeId).IsRequired();
+
+        builder.HasOne(x => x.TransactionType)
+            .WithMany(x => x.Transactions);
     }
 }
