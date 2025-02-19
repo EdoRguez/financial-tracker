@@ -4,9 +4,13 @@
 logs
 **/*.backup.*
 **/*.back.*
+.env
 
 src/ui/node_modules
 src/ui/bower_components
+src/ui/.env
+
+src/backend/Backend.Api/.env
 
 *.sublime*
 

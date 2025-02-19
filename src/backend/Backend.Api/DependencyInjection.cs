@@ -12,10 +12,10 @@ public static class DependencyInjection
 
         services.AddTransient<GlobalExceptionHandlingMiddleware>();
 
+        string? redisConnection = Environment.GetEnvironmentVariable("RedisConnection");
         services.AddStackExchangeRedisCache(redisOptions =>
         {
-            string? connection = configuration["Redis"];
-            redisOptions.Configuration = connection;
+            redisOptions.Configuration = redisConnection;
         });
 
         services.AddMappings();

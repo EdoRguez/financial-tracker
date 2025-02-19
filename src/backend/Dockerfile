@@ -2,6 +2,9 @@
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
+RUN dotnet tool install --global dotnet-ef
+ENV PATH="$PATH:/root/.dotnet/tools"
+
 # Copy the solution file and restore dependencies
 COPY backend.sln .
 COPY Backend.Api/Backend.Api.csproj ./Backend.Api/
@@ -35,7 +38,7 @@ COPY entrypoint.sh ./entrypoint.sh
 RUN chmod +x ./entrypoint.sh
 
 # Expose the port your API will run on
-EXPOSE 80
+EXPOSE 8080
 
 # Set the entry point for the application
 ENTRYPOINT ["./entrypoint.sh"]

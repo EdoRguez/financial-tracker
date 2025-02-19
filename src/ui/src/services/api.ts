@@ -2,7 +2,7 @@ import axios from "axios";
 import type { Transaction } from "../types/Transaction";
 import { TransactionType } from "../types/TransactionType";
 
-const API_BASE_URL = "http://localhost:5295";
+const API_BASE_URL = import.meta.env.VITE_API_BASE_URL;
 
 const apiClient = axios.create({
   baseURL: API_BASE_URL,
